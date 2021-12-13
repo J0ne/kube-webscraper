@@ -1,10 +1,10 @@
 const scrape = require("website-scraper");
 require('dotenv').config();
 const fs = require('fs')
-
+const website_url = process.argv[2] || "https://devopswithkubernetes.com";
 const directory = "data/result";
 const options = {
-  urls: [process.env.website_url],
+  urls: [website_url],
   directory: directory,
 };
 

@@ -11,5 +11,14 @@ spec:
       containers:
       - name: {{{ container_name }}}
         image: {{{ image }}}
-        args: ["{{{ length }}}"]
+        args: ["{{{ website_url }}}"]
+        volumeMounts:
+          - name: data
+            mountPath: /data
+      volumes:
+      - name: data
+        hostPath:
+          path: /tmp/kube
+          type: Directory
       restartPolicy: Never
+

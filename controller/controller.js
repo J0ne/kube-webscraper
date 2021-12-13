@@ -109,11 +109,11 @@ const removeJob = async ({ namespace, job_name }) => {
   );
 };
 
-const removeDummysite = ({ namespace, dummysite_name }) =>
-  sendRequestToApi(
-    `/apis/stable.dwk/v1/namespaces/${namespace}/dummysites/${dummysite_name}`,
-    "delete"
-  );
+// const removeDummysite = ({ namespace, dummysite_name }) =>
+//   sendRequestToApi(
+//     `/apis/stable.dwk/v1/namespaces/${namespace}/dummysites/${dummysite_name}`,
+//     "delete"
+//   );
 
 const removePod = ({ namespace, pod_name }) =>
   sendRequestToApi(
@@ -121,24 +121,19 @@ const removePod = ({ namespace, pod_name }) =>
     "delete"
   );
 
-// const rescheduleJob = (jobObject) => {
-//   const fields = fieldsFromJob(jobObject);
-//   if (Number(fields.length) <= 1) {
-//     console.log("dummysite ended. Removing dummysite.");
-//     return removeDummysite(fields);
-//   }
-//    createJob(newFields);
-//   // Save timeout so if the dummysite is suddenly removed we can prevent execution (removing dummysite removes job)
-// //   timeouts[fields.dummysite_name] = setTimeout(() => {
-// //     removeJob(fields);
-// //     const newFields = {
-// //       ...fields,
-// //       job_name: `${fields.container_name}-job-webscraper`,
-// //     };
-// //     createJob(newFields);
-// //   }, Number(fields.delay));
-// };
+const cleanupForDummysite = async ({ namespace, dummysite_name }) => {
+  console.log("Doing cleanup");
+  clearTimeout(timeouts[dummysite_name]);
 
+  const jobs = await sendRequestToApi(
+    `/apis/batch/v1/namespaces/${namespace}/jobs`
+  );
+  jobs.items.forEach((job) => {
+    if (!job.metadata.labels.dummysite === dummysite_name) return;
+
+    removeJob({ namespace, job_name: job.metadata.name });
+  });
+};
 const maintainStatus = async () => {
   (await client.listPodForAllNamespaces()).body; // A bug in the client(?) was fixed by sending a request and not caring about response
 
@@ -149,11 +144,11 @@ const maintainStatus = async () => {
   const dummysite_stream = new JSONStream();
 
   dummysite_stream.on("data", async ({ type, object }) => {
-    if(!object) return;
     const fields = fieldsFromDummySite(object);
 
     if (type === "ADDED") {
       if (await jobForDummysiteAlreadyExists(fields)) return; // Restarting application would create new 0th jobs without this check
+      console.log('Creating job!');
       createJob(fields);
     }
     if (type === "DELETED") cleanupForDummysite(fields);
