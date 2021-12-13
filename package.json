@@ -1,0 +1,25 @@
+{
+  "name": "kube-webscraper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/J0ne/kube-webscraper.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/J0ne/kube-webscraper/issues"
+  },
+  "homepage": "https://github.com/J0ne/kube-webscraper#readme",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "nodemon": "^2.0.15",
+    "website-scraper": "^4.2.3"
+  }
+}
