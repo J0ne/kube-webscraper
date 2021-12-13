@@ -4,7 +4,7 @@ const fs = require('fs')
 const website_url = process.argv[2] || "https://devopswithkubernetes.com";
 const directory = "data/result";
 const options = {
-  urls: [website_url],
+  urls: [process.env.website_url],
   directory: directory,
 };
 
