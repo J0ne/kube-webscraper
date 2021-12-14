@@ -4,6 +4,7 @@ const JSONStream = require("json-stream");
 const mustache = require("mustache");
 const fs = require("fs").promises;
 
+const timeouts = {};
 const kc = new k8s.KubeConfig();
 
 process.env.NODE_ENV === "development"

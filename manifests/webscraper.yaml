@@ -1,7 +1,17 @@
 apiVersion: stable.dwk/v1
 kind: DummySite
 metadata:
-  name: dummysite
+  name: "example.com"
 spec:
-  website_url: https://devopswithkubernetes.com
-  image: j0ne/kubewebscraper:2.5
+  website_url: "https://example.com/"
+  image: j0ne/kubewebscraper:2.9
+
+---
+
+apiVersion: stable.dwk/v1
+kind: DummySite
+metadata:
+  name: "devopswithkubernetes.com"
+spec:
+  website_url: "https://devopswithkubernetes.com/"
+  image: j0ne/kubewebscraper:3.0

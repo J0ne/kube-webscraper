@@ -15,4 +15,4 @@ spec:
       serviceAccountName: dummysite-controller-account
       containers:
         - name: dummysite-controller
-          image: j0ne/dummysitectrl:2.4
+          image: j0ne/dummysitectrl:3.3

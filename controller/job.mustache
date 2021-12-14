@@ -4,7 +4,6 @@ metadata:
   name: {{{ job_name }}}
   labels:
     dummysite: "{{ dummysite_name }}"
-    website_url: "{{{ website_url }}}"
 spec:
   template:
     spec:
@@ -16,9 +15,10 @@ spec:
           - name: data
             mountPath: /data
       volumes:
-      - name: data
-        hostPath:
-          path: /tmp/kube
-          type: Directory
+        - name: data
+          hostPath:
+            path: /tmp/kube
+            type: Directory
       restartPolicy: Never
+
 
